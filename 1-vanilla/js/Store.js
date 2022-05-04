@@ -1,4 +1,4 @@
-import { TabType } from "./views/TabView.js";
+
 import { createNextId } from "./helpers.js";
 
 const tag = "[Store]";
