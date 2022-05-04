@@ -17,11 +17,7 @@ function main() {
   const store = new Store(storage);
 
   const views = {
-    searchFormView: new SearchFormView(),
-    searchResultView: new SearchResultView(),
-    tabView: new TabView(),
-    keywordListView: new KeywordListView(),
-    historyListView: new HistoryListView(),
+    
   };
 
   new Controller(store, views);
