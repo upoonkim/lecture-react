@@ -10,8 +10,15 @@ export default class Store {
     if (!storage) throw "no storage";
 
     this.storage = storage;
-
+    
+    this.searchKeyword = "";
+    this.searchResult = [];
    
+  }
+
+  search(keyword){
+    this.searchKeyword = keyword;
+    this.searchResult = this.storage.productData.filter(product => product.name.includes(keyword));   // 조건에 맞는 애들을 배열로 리턴
   }
 
   
