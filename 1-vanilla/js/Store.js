@@ -1,5 +1,4 @@
-
-import { createNextId } from "./helpers.js";
+import { TabType } from "./views/TabView.js";
 
 const tag = "[Store]";
 
@@ -13,6 +12,7 @@ export default class Store {
     
     this.searchKeyword = "";
     this.searchResult = [];
+    //this.selectedTab = TabType.KEYWORD;
    
   }
 

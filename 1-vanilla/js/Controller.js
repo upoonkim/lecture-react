@@ -41,7 +41,7 @@ export default class Controller {
       return;
     }
     console.log(tag + "reset click!")
-    this.tabView.show();
+    // 생각해볼 것! this.tabView.show( ??  );
     this.searchResultView.hide();
   }
 
