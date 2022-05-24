@@ -12,6 +12,12 @@ export default class SearchFormView extends View{
         this.bindEvent()
     }
 
+    show(keyword = ""){
+        this.inputElement.value = keyword;
+        this.handleKeyup();
+        super.show();
+    }
+
     showResetButton(visible = true){
         this.resetElement.style.display = visible ? "block" : "none";
     }

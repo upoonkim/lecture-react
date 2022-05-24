@@ -1,4 +1,4 @@
-import { qs, qsAll, on } from "../helpers.js"
+import { delegate, qs, qsAll, on } from "../helpers.js"
 import View from "./View.js"
 
 export const TabType = {
@@ -15,11 +15,11 @@ export default class TabView extends View{
     constructor(){
         super(qs('#tab-view'))
         this.template = new Template()
+        this.bindEvent()
     }
 
     show(selectedTab){
         this.element.innerHTML = this.template.getTabList()
-       //추가한 부분 this.bindEvent()
         qsAll("li", this.element).forEach(li => {li.className = li.dataset.tab===selectedTab ? "active" : "";
     })
         
@@ -27,12 +27,13 @@ export default class TabView extends View{
     }
 
     bindEvent(){
-        on(this.element, "click", ()=>this.handleSelect())
+        delegate(this.element, "click", "li", (event)=>this.handleSelect(event));
     }
 
-    handleSelect(){
-        const { value } = this.element
-        this.emit('@select',{value});
+    handleSelect(event){
+        console.log(event.target)
+        const value = event.target.dataset.tab;
+        this.emit('@change', { value });
     }
 
 

@@ -12,7 +12,7 @@ export default class Store {
     
     this.searchKeyword = "";
     this.searchResult = [];
-    //this.selectedTab = TabType.KEYWORD;
+    this.selectedTab = TabType.KEYWORD;
    
   }
 
@@ -21,5 +21,20 @@ export default class Store {
     this.searchResult = this.storage.productData.filter(product => product.name.includes(keyword));   // 조건에 맞는 애들을 배열로 리턴
   }
 
+  getKeywordList(){
+    return this.storage.keywordData;
+  }
+
+  getHistoryList(){
+    return this.storage.historyData.sort(this._sortHistory);
+  }
+
+  _sortHistory(history1, history2){
+    return history2.date > history1.date;
+  }
   
+  removeHistory(keyword){
+    this.storage.historyData = this.storage.historyData.filter((history)=> history.keyword !== keyword)
+  }
+
 }
