@@ -1,3 +1,4 @@
+import { formatRelativeDate } from "./helpers.js";
 import { TabType } from "./views/TabView.js";
 
 const tag = "[Store]";
@@ -19,6 +20,7 @@ export default class Store {
   search(keyword){
     this.searchKeyword = keyword;
     this.searchResult = this.storage.productData.filter(product => product.name.includes(keyword));   // 조건에 맞는 애들을 배열로 리턴
+    this.storage.historyData.push({id: this.storage.historyData.length+1 , keyword: keyword, date: formatRelativeDate()});
   }
 
   getKeywordList(){
