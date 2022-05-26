@@ -7,7 +7,7 @@ const storage = {
     { id: 3, keyword: "햄버거" },
   ],
 
-  historyData: []
+  historyData: [{id: 1, keyword: "이력없음", date: 3}]
   ,
 
   productData: [

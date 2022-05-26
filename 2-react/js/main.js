@@ -12,6 +12,7 @@ const TabLabel = {           // 출력 용 label
     [TabType.HISTORY]: '최근 검색어'
 }
 
+import { formatRelativeDate } from "./js/helpers.js";
 import store from "./js/Store.js"
 class App extends React.Component {
 
@@ -137,6 +138,19 @@ render() {
         </ul>
     );
 
+    const historyList = (
+        <ul className="list">
+            {this.state.historyList.map(({id, keyword, date})=>{
+                return (
+                    <li key={id} onClick={()=>this.clickList(keyword)}>
+                        <span>{keyword}</span>
+                        <span className="date">{formatRelativeDate(date)}</span>
+                        <button className="btn-remove"></button>
+                    </li>
+                )
+            })}
+        </ul>
+    )
 
     const tabs = (
         <>
@@ -145,7 +159,7 @@ render() {
                     return <li key={tabType} className={this.state.selectedTab === tabType ? "active" : ""} onClick={() => { this.setState({ selectedTab: tabType }) }}>{TabLabel[tabType]}</li>
                 })}
             </ul>
-            {this.state.selectedTab === TabType.KEYWORD ? keywordList : <>historyList</>}
+            {this.state.selectedTab === TabType.KEYWORD ? keywordList : historyList}
         </>
     );
 
