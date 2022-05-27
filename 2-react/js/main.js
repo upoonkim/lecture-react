@@ -14,6 +14,7 @@ const TabLabel = {           // 출력 용 label
 
 import { formatRelativeDate } from "./js/helpers.js";
 import store from "./js/Store.js"
+
 class App extends React.Component {
 
     constructor() {
@@ -61,8 +62,10 @@ class App extends React.Component {
     search(searchKeyword) {
         if (searchKeyword.length > 0) {
             const searchResult = store.search(searchKeyword);
+            const historyList = store.getHistoryList();
             this.setState({ searchResult: searchResult })
             this.setState({ submitted: true });
+            this.setState({ historyList: historyList});
         }
     }
 
@@ -87,7 +90,12 @@ class App extends React.Component {
         console.log("click LI : ", keyword);
     }
 
-
+    handleClickRemoveHistory(event, keyword){
+        event.stopPropagation();
+        store.removeHistory(keyword);
+        const historyList = store.getHistoryList();
+        this.setState({historyList});
+    }
 
 
 render() {
@@ -145,7 +153,7 @@ render() {
                     <li key={id} onClick={()=>this.clickList(keyword)}>
                         <span>{keyword}</span>
                         <span className="date">{formatRelativeDate(date)}</span>
-                        <button className="btn-remove"></button>
+                        <button className="btn-remove" onClick={event=>this.handleClickRemoveHistory(event, keyword)}></button>
                     </li>
                 )
             })}

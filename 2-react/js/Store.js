@@ -16,6 +16,7 @@ class Store {
   }
 
   search(keyword){
+    this.storage.historyData.push({id: this.storage.historyData.length+1 , keyword: keyword, date: formatRelativeDate()});
     return this.searchResult = this.storage.productData.filter(product => product.name.includes(keyword));   // 조건에 맞는 애들을 배열로 리턴
   }
 
@@ -30,7 +31,9 @@ class Store {
   _sortHistoryList(history1, history2){
     return history2.date > history1.date;
   }
-
+  removeHistory(keyword){
+    this.storage.historyData = this.storage.historyData.filter((history)=> history.keyword !== keyword)
+  }
 
 }
 

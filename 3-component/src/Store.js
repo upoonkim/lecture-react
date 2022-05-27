@@ -1,4 +1,4 @@
-import { createNextId } from "./helpers.js";
+import { formatRelativeDate } from "./helpers.js";
 import storage from "./storage.js";
 
 const tag = "[Store]";
@@ -10,50 +10,31 @@ class Store {
     if (!storage) throw "no storage";
 
     this.storage = storage;
+ 
+    
+   
   }
 
-  search(keyword) {
-    this.addHistory(keyword);
-
-    return this.storage.productData.filter((product) =>
-      product.name.includes(keyword)
-    );
+  search(keyword){
+    this.storage.historyData.push({id: this.storage.historyData.length+1 , keyword: keyword, date: formatRelativeDate()});
+    return this.searchResult = this.storage.productData.filter(product => product.name.includes(keyword));   // 조건에 맞는 애들을 배열로 리턴
   }
 
-  addHistory(keyword = "") {
-    keyword = keyword.trim();
-    if (!keyword) return;
-
-    const hasHistory = this.storage.historyData.some(
-      (history) => history.keyword === keyword
-    );
-    if (hasHistory) {
-      this.removeHistory(keyword);
-    }
-
-    const id = createNextId(this.storage.historyData);
-    const date = new Date();
-    this.storage.historyData.push({ id, keyword, date });
-    this.storage.historyData = this.storage.historyData.sort(this._sortHistory);
-  }
-
-  getKeywordList() {
+  getKeywordList(){
     return this.storage.keywordData;
   }
 
-  getHistoryList() {
-    return this.storage.historyData.sort(this._sortHistory);
+  getHistoryList(){
+    return this.storage.historyData.sort(this._sortHistoryList);
   }
 
-  _sortHistory(history1, history2) {
+  _sortHistoryList(history1, history2){
     return history2.date > history1.date;
   }
-
-  removeHistory(keyword) {
-    this.storage.historyData = this.storage.historyData.filter(
-      (history) => history.keyword !== keyword
-    );
+  removeHistory(keyword){
+    this.storage.historyData = this.storage.historyData.filter((history)=> history.keyword !== keyword)
   }
+
 }
 
 const store = new Store(storage);
