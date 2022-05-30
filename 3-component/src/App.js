@@ -2,9 +2,11 @@ import React from "react";
 import Header from "./components/Header.js"
 import SearchForm from "./components/SearchForm.js"
 import SearchResult from "./components/SearchResult.js"
-import Tabs from "./components/Tabs.js"
+import Tabs, { TabType } from "./components/Tabs.js"
 import store from "./Store.js"
- 
+import KeywordList from "./components/KeywordList.js"
+import HistoryList from "./components/HistoryList.js";
+
 export default class App extends React.Component{
     constructor(){
         super();
@@ -20,7 +22,7 @@ export default class App extends React.Component{
     search(searchKeyword){
         const searchResult=store.search(searchKeyword)
 
-        this.setState({searchResult, submitted: true});
+        this.setState({searchKeyword, searchResult, submitted: true});
     }
 
 
@@ -45,7 +47,7 @@ export default class App extends React.Component{
     }
     render(){
         
-        const {searchKeyword, submitted, searchResult} = this.state
+        const {searchKeyword, submitted, searchResult, selectedTab} = this.state
 
         return (
         <>
@@ -57,7 +59,16 @@ export default class App extends React.Component{
             onSubmit={()=>this.search(searchKeyword)} onReset={()=>this.clickReset()}/>
         </div>
         <div className="content">
-            {submitted ? <SearchResult data={searchResult}/> : <Tabs selectedTab={this.state.selectedTab} onSelect={(newTab)=>this.selectedTab(newTab)}/>}
+            {submitted ? <SearchResult data={searchResult}/> : (
+            <> 
+                <Tabs
+                 selectedTab={this.state.selectedTab}
+                    onSelect={(newTab)=>this.selectedTab(newTab)}
+            />
+            {selectedTab === TabType.KEYWORD && <KeywordList onClick={keyword=>this.search(keyword)} />}
+            {selectedTab === TabType.HISTORY && <HistoryList onClick={keyword=>this.search(keyword)}/>}
+            </>
+        )}
         </div>
         </>
         )
