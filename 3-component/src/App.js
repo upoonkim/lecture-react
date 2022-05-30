@@ -21,7 +21,7 @@ export default class App extends React.Component{
 
     search(searchKeyword){
         const searchResult=store.search(searchKeyword)
-
+        console.log(searchKeyword);
         this.setState({searchKeyword, searchResult, submitted: true});
     }
 
